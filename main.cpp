@@ -3,8 +3,9 @@
 #include <string>
 #include <vector>
 #include "tokens.h"
+#include "bin_tree.h"
 
-std::vector<token> parser(std::string code){
+std::vector<token> parse_to_arr(std::string code){
     std::vector<token>parse = std::vector<token>();
     std::string ACC_SYM = "0123456789+-/*()\n";
     std::string NUM = "0123456789";
@@ -25,6 +26,7 @@ std::vector<token> parser(std::string code){
                     Snum = "";
                 }
                 token d(code[i], "ACT");
+                parse.push_back(d);
             }
             else if(code[i] == '\n' && LLnum != 0){
                 token t(LLnum, Snum, "NUM");
@@ -37,6 +39,12 @@ std::vector<token> parser(std::string code){
     return parse;
 }
 
+Node* parse_bin_tree(std::vector<token> tokens){
+    Node *node = new Node();
+    
+    return node;
+}
+
 int main(){
     std::vector<std::string>file = std::vector<std::string>();
     std::string str;
@@ -47,7 +55,11 @@ int main(){
     }
     std::cout << file[0];
     std::cout << "parsing your code ...\n";
-    std::vector<token>n = parser(file[0]);
+    std::vector<token>tokens = parse_to_arr(file[0]);
+    for(int i = 0; i < tokens.size(); i++){
+        std::cout << tokens[i].tok << " " << tokens[i].type << std::endl;
+    }
+    Node *node = parse_bin_tree(tokens);
 
     return 0;
 }
