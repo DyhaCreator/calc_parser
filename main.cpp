@@ -25,7 +25,16 @@ std::vector<token> parse_to_arr(std::string code){
                     LLnum = 0;
                     Snum = "";
                 }
-                token d(code[i], "ACT");
+                //nums prior = 0
+                //+- prior = 1
+                //*/ prior = 2
+                token d;
+                if(code[i] == '+' || code[i] == '-'){
+                    d = token(code[i], "ACT", 1);
+                }
+                else if(code[i] == '*' || code[i] == '/'){
+                    d = token(code[i], "ACT", 2);
+                }
                 parse.push_back(d);
             }
             else if(code[i] == '\n' && LLnum != 0){
@@ -41,6 +50,10 @@ std::vector<token> parse_to_arr(std::string code){
 
 Node* parse_bin_tree(std::vector<token> tokens){
     Node *node = new Node();
+    int startPos = 0;
+    while(tokens[startPos].type != "ACT"){
+        startPos ++;
+    }
     
     return node;
 }
@@ -57,7 +70,7 @@ int main(){
     std::cout << "parsing your code ...\n";
     std::vector<token>tokens = parse_to_arr(file[0]);
     for(int i = 0; i < tokens.size(); i++){
-        std::cout << tokens[i].tok << " " << tokens[i].type << std::endl;
+        std::cout << tokens[i].tok << " " << tokens[i].type << " " << tokens[i].prior << std::endl;
     }
     Node *node = parse_bin_tree(tokens);
 

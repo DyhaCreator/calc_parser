@@ -2,6 +2,7 @@ struct token{
     long long num = 0;
     std::string tok;
     std::string type;
+    int prior = 0;
     token(){}
     token(std::string tok, std::string type){
         this->tok = tok;
@@ -10,6 +11,11 @@ struct token{
     token(char tok, std::string type){
         this->tok = tok;
         this->type = type;
+    }
+    token(char tok, std::string type, int prior){
+        this->tok = tok;
+        this->type = type;
+        this->prior = prior;
     }
     token(long long num, std::string tok, std::string type){
         this->num = num;
