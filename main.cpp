@@ -51,9 +51,39 @@ std::vector<token> parse_to_arr(std::string code){
 Node* parse_bin_tree(std::vector<token> tokens){
     Node *node = new Node();
     int startPos = 0;
-    while(tokens[startPos].type != "ACT"){
+    while(tokens[startPos].type != "ACT" && tokens[startPos].prior != 1){
+        if(startPos == tokens.size()){
+            startPos = -1;
+            break;
+        }
         startPos ++;
     }
+
+    if(startPos == -1){
+        startPos = 0;
+        while(tokens[startPos].type != "ACT" && tokens[startPos].prior != 2){
+            startPos ++;
+        }
+    }
+
+    token node_token = token(tokens[startPos]);
+    node -> node = node_token;
+    //std::cout << node -> node.tok << std::endl;
+
+    std::vector<token>left = std::vector<token>();
+    std::vector<token>right = std::vector<token>();
+
+    for(int i = 0; i < startPos; i++){
+        left.push_back(tokens[i]);
+    }
+    for(int i = startPos + 1; i < tokens.size(); i++){
+        right.push_back(tokens[i]);
+    }
+
+    for(int i = 0; i < right.size(); i++){
+        std::cout << right[i].tok << " ";
+    }
+    std::cout << std::endl;
     
     return node;
 }

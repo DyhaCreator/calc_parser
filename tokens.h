@@ -22,4 +22,10 @@ struct token{
         this->tok = tok;
         this->type = type;
     }
+    token(token *a){
+        this->tok = a -> tok;
+        this->type = a -> type;
+        this->num = a -> num;
+        this->prior = a -> prior;
+    }
 };

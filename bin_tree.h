@@ -1,5 +1,5 @@
 struct Node{
-    token node();
+    token node;
     Node* right;
     Node* left;
 
