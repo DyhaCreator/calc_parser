@@ -50,8 +50,15 @@ std::vector<token> parse_to_arr(std::string code){
 
 Node* parse_bin_tree(std::vector<token> tokens){
     Node *node = new Node();
+    if(tokens.size() == 1){
+        node -> node = token(tokens[0]);
+        return node;
+    }
     int startPos = 0;
-    while(tokens[startPos].type != "ACT" && tokens[startPos].prior != 1){
+    while(true){
+        if(tokens[startPos].type == "ACT" && tokens[startPos].prior == 1){
+            break;
+        }
         if(startPos == tokens.size()){
             startPos = -1;
             break;
@@ -61,14 +68,15 @@ Node* parse_bin_tree(std::vector<token> tokens){
 
     if(startPos == -1){
         startPos = 0;
-        while(tokens[startPos].type != "ACT" && tokens[startPos].prior != 2){
+        while(true){
+            if(tokens[startPos].type == "ACT" && tokens[startPos].prior == 2){
+                break;
+            }
             startPos ++;
         }
     }
 
-    token node_token = token(tokens[startPos]);
-    node -> node = node_token;
-    //std::cout << node -> node.tok << std::endl;
+    node -> node = token(tokens[startPos]);
 
     std::vector<token>left = std::vector<token>();
     std::vector<token>right = std::vector<token>();
@@ -80,12 +88,20 @@ Node* parse_bin_tree(std::vector<token> tokens){
         right.push_back(tokens[i]);
     }
 
-    for(int i = 0; i < right.size(); i++){
-        std::cout << right[i].tok << " ";
-    }
-    std::cout << std::endl;
+    node -> right = parse_bin_tree(right);
+    node -> left = parse_bin_tree(left);
     
     return node;
+}
+
+void print_tree(Node *node){
+    std::cout << node -> node.tok << " ";
+    if(node -> left != nullptr){
+        print_tree(node -> left);
+    }
+    if(node -> right != nullptr){
+        print_tree(node -> right);
+    }
 }
 
 int main(){
@@ -103,6 +119,8 @@ int main(){
         std::cout << tokens[i].tok << " " << tokens[i].type << " " << tokens[i].prior << std::endl;
     }
     Node *node = parse_bin_tree(tokens);
+
+    print_tree(node);
 
     return 0;
 }
