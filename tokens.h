@@ -3,6 +3,7 @@ struct token{
     std::string tok;
     std::string type;
     int prior = 0;
+    //types = NUM, ACT, BROP, BRCL;
     token(){}
     token(std::string tok, std::string type){
         this->tok = tok;
